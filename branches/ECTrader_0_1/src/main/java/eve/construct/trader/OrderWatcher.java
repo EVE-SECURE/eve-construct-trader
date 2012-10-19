@@ -1,5 +1,11 @@
 package eve.construct.trader;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+
+import javax.swing.filechooser.FileSystemView;
+
 /**
  * Order Watcher is designed to watch the MarketLogs folder for any file exports
  * from the My Orders section of the wallet.
@@ -16,6 +22,14 @@ public class OrderWatcher extends Thread
   @Override
   public void run()
   {
-    System.out.println("Hello!");
+    // Fetch the default location for the user's My Documents folder
+    JFileChooser fileChooser = new JFileChooser();
+    FileSystemView fileSysView = fileChooser.getFileSystemView();
+    String docsFolder = fileSysView.getDefaultDirectory().getPath();
+    // Attach to the MarketLogs folder
+    String marketLogsPath = docsFolder + "/EVE/logs/MarketLogs";
+    File marketLogsDir = new File(marketLogsPath);
+    File[] marketLogs = marketLogsDir.listFiles();
+    System.out.println(marketLogs.length + " logs detected.");
   }
 }
