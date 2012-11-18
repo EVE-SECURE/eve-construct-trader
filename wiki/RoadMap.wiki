@@ -13,8 +13,6 @@ The following is a (very) loose road map for the development of ECTrader.
     * Display potential profit margin
   * Add stomach for My Order CSV files
     * Display results
-  * Add stomach for corporate orders CSV files
-    * Display results
 
 = Version 1.x =
   * Hire Broker for EvE API data
