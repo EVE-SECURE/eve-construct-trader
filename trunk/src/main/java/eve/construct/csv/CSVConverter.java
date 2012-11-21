@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVConverter {
@@ -43,21 +44,47 @@ public class CSVConverter {
                 else
                     sellPrice = Math.min(Double.parseDouble(line[0]), sellPrice);
             }
-            //Parse row 3 for itemID
+            //Parse column 3 for itemID
             itemID = Integer.parseInt(line[2]);
         }
         return new Order(sellPrice, buyPrice, itemID, stationID, Source.MARKET);
     }
     
     /**
-     * Creates an Order object from a MyOrders CSV
+     * Creates a list of Order objects from a MyOrders CSV
      * @param inputCSV File object containing the CSV polled from the log directory
      * @return
      * @throws FileNotFoundException 
      */
-    public static Order convertMyOrder(File inputCSV) throws FileNotFoundException
+    public static List<Order> convertMyOrder(File inputCSV) throws FileNotFoundException, IOException
     {
-        //TODO: Code for MyOders files
-        return null;
+        List<Order> orders = new ArrayList<Order>();
+        FileReader fileReader = new FileReader(inputCSV);
+        CSVReader csvReader = new CSVReader(fileReader);
+        List<String[]> lines = csvReader.readAll();
+        
+        for (int i = 1; i < lines.size(); i++)
+        {
+            int itemID = -1, stationID = 1;
+            double sellPrice = -1, buyPrice = -1;
+            
+            String[] line = lines.get(i);
+            //True resolves to buy orders, false to sell orders
+            if (Boolean.parseBoolean(line[9]))
+            {
+                buyPrice = Double.parseDouble(line[10]);
+            }
+            else
+            {
+                sellPrice = Double.parseDouble(line[10]);
+            }
+            //Parse column 7 for stationID
+            stationID = Integer.parseInt(line[6]);
+            //Parse column 2 for itemID
+            itemID = Integer.parseInt(line[1]);
+            Order order = new Order(sellPrice, buyPrice, itemID, stationID, Source.MYORDERS);
+            orders.add(order);
+        }
+        return orders;
     }
 }

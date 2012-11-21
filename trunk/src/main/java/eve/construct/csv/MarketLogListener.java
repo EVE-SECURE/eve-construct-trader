@@ -1,13 +1,21 @@
 package eve.construct.csv;
 
 import eve.construct.models.Order;
+import eve.construct.trader.TradeManager;
 import java.io.File;
+import java.util.List;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 
+/**
+ * Log listener to execute code on new file creation in the Market logs folder
+ * @author Joseph
+ */
 public class MarketLogListener implements FileAlterationListener {
-
-    public MarketLogListener() {
+    public TradeManager tradeManager;
+    
+    public MarketLogListener(TradeManager tradeManager) {
+        this.tradeManager = tradeManager;
     }
 
     public void onStart(FileAlterationObserver fao) {
@@ -30,8 +38,19 @@ public class MarketLogListener implements FileAlterationListener {
         System.out.println("File created: " + file.getName());
         try
         {
-            Order order = CSVConverter.convertMarket(file);
-            //TODO: Pass the order off to a TradeManager
+            if(file.getName().contains("My Orders"))
+            {
+                List<Order> orders = CSVConverter.convertMyOrder(file);
+                for (Order order : orders)
+                {
+                    tradeManager.orderQueue.add(order);
+                }
+            }
+            else
+            {
+                Order order = CSVConverter.convertMarket(file);
+                tradeManager.orderQueue.add(order);
+            }
         }
         catch (Exception e)
         {
