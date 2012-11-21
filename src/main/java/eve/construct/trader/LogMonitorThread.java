@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package eve.construct.trader;
 
 import eve.construct.csv.MarketLogListener;
@@ -26,7 +21,7 @@ public class LogMonitorThread extends Thread {
         String docsFolder = fileSysView.getDefaultDirectory().getPath();
         String marketLogsPath = docsFolder + "/EVE/logs/Marketlogs";
         File marketLogsDir = new File(marketLogsPath);
-        // Add a listener that converts csv values when it finds a new file
+        // Add an observer with a listener that converts csv values when it finds a new file
         FileAlterationObserver fio = new FileAlterationObserver(marketLogsDir);
         fio.addListener(new MarketLogListener());
         try

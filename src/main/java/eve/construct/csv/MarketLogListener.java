@@ -31,6 +31,7 @@ public class MarketLogListener implements FileAlterationListener {
         try
         {
             Order order = CSVConverter.convertMarket(file);
+            //TODO: Pass the order off to a TradeManager
         }
         catch (Exception e)
         {

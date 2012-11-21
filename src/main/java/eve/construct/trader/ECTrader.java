@@ -13,6 +13,7 @@ public class ECTrader
             while(true)
             {
                 //Thread.sleep(5000);
+                //TODO: Check the TradeManager's queue periodically
             }
         }
         catch(Exception e)

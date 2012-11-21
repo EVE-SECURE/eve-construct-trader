@@ -45,9 +45,17 @@ public class Order {
     public void setStationID(int stationID) {
         this.stationID = stationID;
     }
+    
+    /**
+     * Rough estimate of profit for a given order, to be expanded upon later
+     * @return 
+     */
+    public double getProfit() {
+        return sellPrice - buyPrice;
+    }
 
     @Override
     public String toString() {
-        return "Order{" + "sellPrice=" + sellPrice + ", buyPrice=" + buyPrice + ", itemID=" + itemID + ", stationID=" + stationID + '}';
+        return "Order{" + "sellPrice=" + sellPrice + ", buyPrice=" + buyPrice + ", itemID=" + itemID + ", stationID=" + stationID + "\nPROFIT=" + getProfit() + '}';
     }
 }
