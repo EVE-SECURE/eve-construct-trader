@@ -51,7 +51,11 @@ public class Order {
      * @return 
      */
     public double getProfit() {
-        return sellPrice - buyPrice;
+        if (sellPrice > 0 && buyPrice > 0)
+        {
+            return sellPrice - buyPrice;
+        }
+        return 0;
     }
 
     @Override

@@ -8,10 +8,18 @@ import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 
 public class LogMonitorThread extends Thread {
+    
+    public TradeManager tradeManager;
+    
+    public LogMonitorThread(TradeManager tradeManager)
+    {
+        this.tradeManager = tradeManager;
+    }
+    
     /**
-   * Main execution method used to watch the MarketLogs folder and digest any
-   * any new MyOrders files.
-   */
+    * Main execution method used to watch the MarketLogs folder and digest any
+    * any new MyOrders files.
+    */
     @Override
     public void run()
     {
@@ -23,7 +31,7 @@ public class LogMonitorThread extends Thread {
         File marketLogsDir = new File(marketLogsPath);
         // Add an observer with a listener that converts csv values when it finds a new file
         FileAlterationObserver fio = new FileAlterationObserver(marketLogsDir);
-        fio.addListener(new MarketLogListener());
+        fio.addListener(new MarketLogListener(tradeManager));
         try
         {
             FileAlterationMonitor monitor = new FileAlterationMonitor(1000);
