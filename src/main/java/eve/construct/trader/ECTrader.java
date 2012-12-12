@@ -15,9 +15,9 @@ public class ECTrader
             {
                 //Check every 5 seconds for an order, print the toString if found
                 Thread.sleep(5000);
-                if (!tradeManager.orderQueue.isEmpty())
+                if (!tradeManager.productQueue.isEmpty())
                 {
-                    System.out.println(tradeManager.orderQueue.remove().toString());
+                    System.out.println(tradeManager.productQueue.remove().toString());
                 }
             }
         }

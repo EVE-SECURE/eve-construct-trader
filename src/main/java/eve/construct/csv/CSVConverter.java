@@ -1,13 +1,14 @@
 package eve.construct.csv;
 
 import au.com.bytecode.opencsv.CSVReader;
+import eve.construct.models.MarketProduct;
+import eve.construct.models.MyOrders;
 import eve.construct.models.Order;
-import eve.construct.models.Source;
+import eve.construct.models.TradeOrder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CSVConverter {
@@ -19,7 +20,7 @@ public class CSVConverter {
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public static Order convertMarket(File inputCSV) throws FileNotFoundException, IOException
+    public static MarketProduct convertMarket(File inputCSV) throws FileNotFoundException, IOException
     {
         int itemID = -1, stationID = 1;
         double sellPrice = -1, buyPrice = -1;
@@ -47,7 +48,9 @@ public class CSVConverter {
             //Parse column 3 for itemID
             itemID = Integer.parseInt(line[2]);
         }
-        return new Order(sellPrice, buyPrice, itemID, stationID, Source.MARKET);
+        Order minSell = new Order(sellPrice, 1, itemID, stationID, 1);
+        Order maxBuy = new Order(buyPrice, 1, itemID, stationID, 1);
+        return new MarketProduct(minSell, maxBuy);
     }
     
     /**
@@ -56,35 +59,36 @@ public class CSVConverter {
      * @return
      * @throws FileNotFoundException 
      */
-    public static List<Order> convertMyOrder(File inputCSV) throws FileNotFoundException, IOException
+    public static MyOrders convertMyOrder(File inputCSV) throws FileNotFoundException, IOException
     {
-        List<Order> orders = new ArrayList<Order>();
+        MyOrders myOrders = new MyOrders();
+        
         FileReader fileReader = new FileReader(inputCSV);
         CSVReader csvReader = new CSVReader(fileReader);
         List<String[]> lines = csvReader.readAll();
         
         for (int i = 1; i < lines.size(); i++)
         {
-            int itemID = -1, stationID = 1;
-            double sellPrice = -1, buyPrice = -1;
+            int itemID = -1, stationID = 1, volume = 1, minVolume = 1;
+            double price = -1;
             
             String[] line = lines.get(i);
             //True resolves to buy orders, false to sell orders
             if (Boolean.parseBoolean(line[9]))
             {
-                buyPrice = Double.parseDouble(line[10]);
+                price = Double.parseDouble(line[10]);
             }
             else
             {
-                sellPrice = Double.parseDouble(line[10]);
+                price = Double.parseDouble(line[10]);
             }
             //Parse column 7 for stationID
             stationID = Integer.parseInt(line[6]);
             //Parse column 2 for itemID
             itemID = Integer.parseInt(line[1]);
-            Order order = new Order(sellPrice, buyPrice, itemID, stationID, Source.MYORDERS);
-            orders.add(order);
+            TradeOrder order = new TradeOrder(price, volume, itemID, stationID, minVolume);
+            myOrders.add(order);
         }
-        return orders;
+        return null;
     }
 }

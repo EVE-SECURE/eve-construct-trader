@@ -1,9 +1,9 @@
 package eve.construct.csv;
 
-import eve.construct.models.Order;
+import eve.construct.models.MarketProduct;
+import eve.construct.models.MyOrders;
 import eve.construct.trader.TradeManager;
 import java.io.File;
-import java.util.List;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 
@@ -40,16 +40,15 @@ public class MarketLogListener implements FileAlterationListener {
         {
             if(file.getName().contains("My Orders"))
             {
-                List<Order> orders = CSVConverter.convertMyOrder(file);
-                for (Order order : orders)
-                {
-                    tradeManager.orderQueue.add(order);
-                }
+                MyOrders myOrders = CSVConverter.convertMyOrder(file);
+                //TODO: Add to tradeManager queue
+                //tradeManager.productQueue.add(null);
             }
             else
             {
-                Order order = CSVConverter.convertMarket(file);
-                tradeManager.orderQueue.add(order);
+                MarketProduct product = CSVConverter.convertMarket(file);
+                //TODO: Add to tradeManager queue
+                //tradeManager.orderQueue.add(null);
             }
         }
         catch (Exception e)

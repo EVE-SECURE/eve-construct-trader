@@ -1,25 +1,34 @@
 package eve.construct.models;
 
 public class Order {
-    private double sellPrice;
-    private double buyPrice;
+    private double price;
+    private int volume;
     private int itemID;
     private int stationID;
+    private int minVolume;
     
-    public Order(double sellPrice, double buyPrice, int itemID, int stationID, Source source) {
-        this.sellPrice = sellPrice;
-        this.buyPrice = buyPrice;
+    public Order(double price, int volume, int itemID, int stationID, int minVolume) {
+        this.price = price;
+        this.volume = volume;
         this.itemID = itemID;
         this.stationID = stationID;
-        source = Source.MARKET;
+        this.minVolume = minVolume;
     }
 
-    public double getBuyPrice() {
-        return buyPrice;
+    public int getMinVolume() {
+        return minVolume;
     }
 
-    public void setBuyPrice(double buyPrice) {
-        this.buyPrice = buyPrice;
+    public void setMinVolume(int minVolume) {
+        this.minVolume = minVolume;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getItemID() {
@@ -29,15 +38,7 @@ public class Order {
     public void setItemID(int itemID) {
         this.itemID = itemID;
     }
-
-    public double getSellPrice() {
-        return sellPrice;
-    }
-
-    public void setSellPrice(double sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
+    
     public int getStationID() {
         return stationID;
     }
@@ -45,21 +46,12 @@ public class Order {
     public void setStationID(int stationID) {
         this.stationID = stationID;
     }
-    
-    /**
-     * Rough estimate of profit for a given order, to be expanded upon later
-     * @return 
-     */
-    public double getProfit() {
-        if (sellPrice > 0 && buyPrice > 0)
-        {
-            return sellPrice - buyPrice;
-        }
-        return 0;
+
+    public int getVolume() {
+        return volume;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" + "sellPrice=" + sellPrice + ", buyPrice=" + buyPrice + ", itemID=" + itemID + ", stationID=" + stationID + "\nPROFIT=" + getProfit() + '}';
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 }
