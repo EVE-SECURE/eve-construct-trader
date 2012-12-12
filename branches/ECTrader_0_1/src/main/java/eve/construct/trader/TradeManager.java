@@ -1,6 +1,6 @@
 package eve.construct.trader;
 
-import eve.construct.models.Order;
+import eve.construct.models.ProductListing;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,10 +9,10 @@ import java.util.Queue;
  * @author Joseph
  */
 public class TradeManager {
-    public Queue<Order> orderQueue;
+    public Queue<ProductListing> productQueue;
     
     public TradeManager()
     {
-        orderQueue = new LinkedList<Order>();
+        productQueue = new LinkedList<ProductListing>();
     }
 }
